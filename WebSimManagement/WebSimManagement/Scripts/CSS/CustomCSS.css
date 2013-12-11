@@ -1,0 +1,46 @@
+﻿body {
+    margin:0 auto;
+    padding:0;
+    width:1024px;
+}
+
+#registerContainer {
+    border:2px solid #000;
+    width:450px;
+}
+
+#loginContainer {
+    border:2px solid #000;
+    width:373px;
+}
+
+#loginTable {
+    width:auto;
+    margin-top:30px;
+}
+
+#registerPageLabelAlignRight {
+    text-align:right;
+}
+
+#registerPageLabelAlignCenter {
+    text-align:center;
+}
+
+.buttonRegister {
+    margin: 20px;
+    margin-left: 127px;
+}
+
+.buttonLogin {
+    margin-top:20px;
+    margin-left:73px;
+}
+
+#dashboardGridView {
+    margin-left:30px;
+}
+
+#CourseDetailGridView {
+    margin-top:50px;
+}

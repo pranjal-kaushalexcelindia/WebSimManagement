@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSimManagement", "WebSimManagement\WebSimManagement.csproj", "{472D53A9-AEE6-40C8-9344-95A5386C6B9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSim.Business", "WebSim.Business\WebSim.Business.csproj", "{B962DF96-0623-4423-B873-8479BAC77B64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSim.DAL", "WebSim.DAL\WebSim.DAL.csproj", "{EB2AC7F7-31D5-446E-BB2F-7C2FF599A04D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSim.DTO", "WebSim.DTO\WebSim.DTO.csproj", "{467B3D60-D988-4AEC-B75F-96612E48834A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{472D53A9-AEE6-40C8-9344-95A5386C6B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{472D53A9-AEE6-40C8-9344-95A5386C6B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{472D53A9-AEE6-40C8-9344-95A5386C6B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{472D53A9-AEE6-40C8-9344-95A5386C6B9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B962DF96-0623-4423-B873-8479BAC77B64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B962DF96-0623-4423-B873-8479BAC77B64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B962DF96-0623-4423-B873-8479BAC77B64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B962DF96-0623-4423-B873-8479BAC77B64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB2AC7F7-31D5-446E-BB2F-7C2FF599A04D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB2AC7F7-31D5-446E-BB2F-7C2FF599A04D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB2AC7F7-31D5-446E-BB2F-7C2FF599A04D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB2AC7F7-31D5-446E-BB2F-7C2FF599A04D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{467B3D60-D988-4AEC-B75F-96612E48834A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{467B3D60-D988-4AEC-B75F-96612E48834A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{467B3D60-D988-4AEC-B75F-96612E48834A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{467B3D60-D988-4AEC-B75F-96612E48834A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

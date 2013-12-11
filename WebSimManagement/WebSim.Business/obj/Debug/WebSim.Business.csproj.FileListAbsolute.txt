@@ -1,0 +1,9 @@
+D:\Work\RampUp\ASP.Net\Assignment2\WebSimManagement\WebSim.Business\obj\Debug\WebSim.Business.csprojResolveAssemblyReference.cache
+D:\Work\RampUp\ASP.Net\Assignment2\WebSimManagement\WebSim.Business\bin\Debug\WebSim.Business.dll
+D:\Work\RampUp\ASP.Net\Assignment2\WebSimManagement\WebSim.Business\bin\Debug\WebSim.Business.pdb
+D:\Work\RampUp\ASP.Net\Assignment2\WebSimManagement\WebSim.Business\bin\Debug\WebSim.DAL.dll
+D:\Work\RampUp\ASP.Net\Assignment2\WebSimManagement\WebSim.Business\bin\Debug\WebSim.DTO.dll
+D:\Work\RampUp\ASP.Net\Assignment2\WebSimManagement\WebSim.Business\bin\Debug\WebSim.DAL.pdb
+D:\Work\RampUp\ASP.Net\Assignment2\WebSimManagement\WebSim.Business\bin\Debug\WebSim.DTO.pdb
+D:\Work\RampUp\ASP.Net\Assignment2\WebSimManagement\WebSim.Business\obj\Debug\WebSim.Business.dll
+D:\Work\RampUp\ASP.Net\Assignment2\WebSimManagement\WebSim.Business\obj\Debug\WebSim.Business.pdb
