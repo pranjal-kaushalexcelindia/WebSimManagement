@@ -9,7 +9,7 @@ namespace WebSim.DAL
 {
     public class BaseDataAccess
     {
-       // private static string connection = ConfigurationManager.ConnectionStrings["Websim_Database_ConnectionString"].ConnectionString;
+        protected static string connectionString = ConfigurationManager.ConnectionStrings["Websim_Database_ConnectionString"].ConnectionString;
 
     }
 }

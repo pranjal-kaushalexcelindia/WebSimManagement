@@ -15,9 +15,36 @@ namespace WebSimManagement
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            UserList();
-            RolesList();
-            CourseNameGridView();
+            if (!Page.IsPostBack)
+            {
+                // Get the course list to the gridview as well as to the dropdownlist
+                CourseList();
+
+                // Gets the username list for the role and course dropdown list
+                UserList();
+
+                RolesList();
+            }
+        }
+
+        /// <summary>
+        /// Get the list of all the course
+        /// </summary>
+        private void CourseList()
+        {
+            IList<WebSim.DTO.CourseNameAndId> courseDTO = business.GetCourseName();
+            
+            // Add the coursename to the dropdownlist
+            DropDownListCourse.DataSource = courseDTO;
+            DropDownListCourse.DataBind();
+
+            // Add the coursename to the gridview
+            GridViewDashboard.DataSource = courseDTO;
+            GridViewDashboard.DataBind();
+
+            // Renaming the header and hiding the course id column
+            GridViewDashboard.HeaderRow.Cells[3].Text = "Course Name";
+            GridViewDashboard.HeaderRow.Cells[2].Visible = false;
         }
 
         /// <summary>
@@ -34,8 +61,28 @@ namespace WebSimManagement
         /// </summary>
         private void UserList()
         {
+            // get user list for adding role to the user
             DropDownUserList.DataSource = Membership.GetAllUsers();
             DropDownUserList.DataBind();
+
+            // get user list for adding user to the course
+            DropDownListUser.DataSource = Membership.GetAllUsers();
+            DropDownListUser.DataBind();
+        }
+
+        /// <summary>
+        /// add user and the course to a table in the database
+        /// </summary>
+        /// <param name="sender">The button is the sender object</param>
+        /// <param name="e">The event argument for the button click event</param>
+        protected void AddUserAndCourse_Click(object sender, EventArgs e)
+        {
+            WebSim.DTO.UserAndCourse userInCourse = new WebSim.DTO.UserAndCourse();
+            
+            userInCourse.userName = DropDownListUser.SelectedValue.ToString();
+            userInCourse.courseName = DropDownListCourse.SelectedValue.ToString();
+
+            business.AddUserToCourse(userInCourse);
         }
 
         /// <summary>
@@ -63,20 +110,7 @@ namespace WebSimManagement
         }
 
         /// <summary>
-        ///  Gives the list of all the course name
-        /// </summary>
-        private void CourseNameGridView()
-        {
-            IList<WebSim.DTO.CourseNameAndId> courseDto = business.GetCourseName();
-            
-            GridViewDashboard.DataSource = courseDto;
-            GridViewDashboard.DataBind();
-            GridViewDashboard.HeaderRow.Cells[3].Text = "Course Name";
-            GridViewDashboard.HeaderRow.Cells[2].Visible = false;
-        }
-
-        /// <summary>
-        /// Logs out the user
+        /// Removing the authentication of the user
         /// </summary>
         /// <param name="sender">The button is the sender object</param>
         /// <param name="e">The event argument for the button click event</param>
@@ -112,21 +146,23 @@ namespace WebSimManagement
         /// <param name="e">The event argument for the button click event</param>
         protected void AddUserToRole_Click(object sender, EventArgs e)
         {
-            string userId = DropDownUserList.SelectedValue.ToString();
-            string roleId = DropDownRoleList.SelectedValue.ToString();
+            string userName = DropDownUserList.SelectedValue.ToString();
+            string rolenName = DropDownRoleList.SelectedValue.ToString();
 
-            Roles.AddUserToRole(userId, roleId);
+            Roles.AddUserToRole(userName, rolenName);
         }
 
+        /// <summary>
+        /// It hides the datarow of the id column
+        /// </summary>
+        /// <param name="sender">The bound data is the sender object</param>
+        /// <param name="e">The GridViewRow event arugument for the bound data</param>
         protected void GridViewDashboard_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 e.Row.Cells[2].Visible = false;
             }
-            
-            //GridViewDashboard.Columns[3].Visible = false;
         }
     }
 }

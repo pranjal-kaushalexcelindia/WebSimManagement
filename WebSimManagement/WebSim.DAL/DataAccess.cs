@@ -9,11 +9,8 @@ using System.Threading.Tasks;
 
 namespace WebSim.DAL
 {
-    public class DataAccess
+    public class DataAccess:BaseDataAccess
     {
-        // Static conneection string
-        private static string connectionString = ConfigurationManager.ConnectionStrings["Websim_Database_ConnectionString"].ConnectionString;
-       
         /// <summary>
         /// Add new course to the database
         /// </summary>
@@ -36,20 +33,21 @@ namespace WebSim.DAL
         }
 
         /// <summary>
-        /// Add users in courses
+        /// Add users to the course
         /// </summary>
         /// <param name="userCourse">userid and courseid</param>
-        public void AddUserToCourse(DTO.UserToCourse userCourse)
+        public void AddUserToCourse(DTO.UserAndCourse userCourse)
         {
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-                /////////////////////// first check the userid and course id are present in the database then add values to the database
-                using (var command = new SqlCommand("INSERT INTO User_Course_Mapping(UserId,CourseId) VALUES(@userId,@courseId) ", connection))
+                using (var command = new SqlCommand("", connection))
                 {
-                    command.Parameters.AddWithValue("@userId",userCourse.userId);
-                    command.Parameters.AddWithValue("@courseId", userCourse.courseId);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "AddUserToCourse";
+                    command.Parameters.AddWithValue("@username",userCourse.userName);
+                    command.Parameters.AddWithValue("@coursename", userCourse.courseName);
                     command.ExecuteNonQuery();
                 }
             }
@@ -67,7 +65,7 @@ namespace WebSim.DAL
                 using (var command = new SqlCommand("", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "GetCoursesName";
+                    command.CommandText = "GetCourseName";
 
                     var reader = command.ExecuteReader();
                     List<DTO.CourseNameAndId> courseList = new List<DTO.CourseNameAndId>();
@@ -88,7 +86,7 @@ namespace WebSim.DAL
         }
 
         /// <summary>
-        /// This will remove the course from the database
+        /// Remove the course from the database
         /// </summary>
         /// <param name="courseid">Course name</param>
         public void RemoveCourse(DTO.CourseID courseid)
@@ -106,6 +104,11 @@ namespace WebSim.DAL
             }
         }
 
+        /// <summary>
+        /// Get the coursename and the course description
+        /// </summary>
+        /// <param name="dtoCourse">courseid</param>
+        /// <returns>course name and course description</returns>
         public IList<DTO.CourseDetail> GetCoursesDetail(DTO.CourseID dtoCourse)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -140,9 +143,9 @@ namespace WebSim.DAL
         /// <summary>
         /// Gives the list of all student
         /// </summary>
-        /// <param name="studentid">string format student id</param>
-        /// <returns></returns>
-        public IList<WebSim.DTO.StudentDetail> GetStudentList(DTO.StudentIdentification studentid)
+        /// <param name="courseid">courseid</param>
+        /// <returns>student name and student id</returns>
+        public IList<WebSim.DTO.StudentDetail> GetStudentList(DTO.CourseID courseid)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -151,10 +154,9 @@ namespace WebSim.DAL
                 {
                     studentNameCommand.CommandType = CommandType.StoredProcedure;
 
-                    /// Create a SP that take student id as userID and returns the username,userId
-                    studentNameCommand.CommandText = "SPNAME";
+                    studentNameCommand.CommandText = "UserNotInCourse";
 
-                    studentNameCommand.Parameters.AddWithValue("VALUE", studentid.studentId);
+                    studentNameCommand.Parameters.AddWithValue("@courseid", courseid.courseid);
 
                     var reader = studentNameCommand.ExecuteReader();
 
@@ -175,11 +177,10 @@ namespace WebSim.DAL
         }
 
         /// <summary>
-        /// Get userid by giving the courseid as input
+        /// Add user in the course
         /// </summary>
-        /// <param name="courseid">courseid</param>
-        /// <returns>return the userid</returns>
-        public IList<WebSim.DTO.StudentIdentification> GetUserByCourse(WebSim.DTO.CourseID courseid)
+        /// <param name="userNamecourseId">username and courseid</param>
+        public void AddUserInCourse(DTO.UserInCourse userNamecourseId)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -187,24 +188,12 @@ namespace WebSim.DAL
                 using (SqlCommand command = new SqlCommand("", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "GetUserByCourse";
+                    command.CommandText = "AddUsersInCourse";
 
-                    command.Parameters.AddWithValue("@courseid", courseid.courseid);
+                    command.Parameters.AddWithValue("@username", userNamecourseId.userName);
+                    command.Parameters.AddWithValue("@courseid", userNamecourseId.courseid);
 
-                    var reader = command.ExecuteReader();
-
-                    List<WebSim.DTO.StudentIdentification> studentname = new List<WebSim.DTO.StudentIdentification>();
-                   
-                    WebSim.DTO.StudentIdentification dtoStudent;
-
-                    while (reader.Read())
-                    {
-                        dtoStudent = new DTO.StudentIdentification();
-                        dtoStudent.studentId = reader["UserId"].ToString();
-
-                        studentname.Add(dtoStudent);
-                    }
-                    return studentname;
+                    command.ExecuteNonQuery();
                 }
             }
         }

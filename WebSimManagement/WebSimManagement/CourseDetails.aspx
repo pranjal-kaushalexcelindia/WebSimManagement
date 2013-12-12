@@ -11,14 +11,21 @@
     <form id="form1" runat="server">
         <div id="CourseDetailGridView">
             <div>
-                <h2>Course Detail</h2>
+                <h2 style="display:inline-block;width:870px;">Course Detail</h2>
+                <div style="display:inline;">
+                    <asp:Button ID="Button1" runat="server" Text="Log Out" OnClick="LogOutCourseDetail_Click" />
+                </div>
                 <hr />
             </div>
+            
 
             <asp:GridView ID="GridViewCourseDetail" runat="server" AutoGenerateColumns="true" OnRowDataBound="GridViewCourseDetail_RowDataBound">
             </asp:GridView>
         </div>
         <br />
+        <div>
+            <asp:Label runat="server" ID="lblMessageGridView"></asp:Label>
+        </div>
         <div>
             <hr />
             <asp:Label runat="server" ID="lblMessage"></asp:Label>

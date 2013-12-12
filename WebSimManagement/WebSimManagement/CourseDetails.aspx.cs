@@ -11,13 +11,16 @@ namespace WebSimManagement
     public partial class CourseDetails : System.Web.UI.Page
     {
         WebSim.Business.Business userBuiCourse = new WebSim.Business.Business();
-        private Guid UserId;
+        private string queryString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            GridViewCourseList();
-
-            StudentListView();
+            queryString = Request.QueryString["Course"];
+            if (!Page.IsPostBack)
+            {
+                GridViewCourseList();
+                StudentListView();
+            }
         }
 
         /// <summary>
@@ -25,22 +28,15 @@ namespace WebSimManagement
         /// </summary>
         private void StudentListView()
         {
-            MembershipUserCollection user = Membership.GetAllUsers();
-            StudentList.DataSourceObject = user;
-            StudentList.DataBind();
+            WebSim.DTO.CourseID courseid = new WebSim.DTO.CourseID();
+            courseid.courseid = queryString;
+            IList<WebSim.DTO.StudentDetail> studDetail = userBuiCourse.GetStudentList(courseid);
 
-            //WebSim.DTO.CourseID dtocourseid = new WebSim.DTO.CourseID();
-
-            //dtocourseid.courseid = Request.QueryString["Course"];
-            //IList<WebSim.DTO.StudentIdentification> studentID = userBuiCourse.GetUserByCourseId(dtocourseid);
-           
-            //foreach (var item in studentID)
-            //{
-            //    UserId = Guid.Parse(studentID.ToString());
-            //    MembershipUser userid = Membership.GetUser(UserId);
-            //    StudentList.DataSource = userid;
-            //    StudentList.DataBind();
-            //}
+            // adding student name to the list
+            foreach (var item in studDetail)
+            {
+                StudentList.Items.Insert(0, item.name.ToString());
+            }
         }
 
         /// <summary>
@@ -48,15 +44,24 @@ namespace WebSimManagement
         /// </summary>
         private void GridViewCourseList()
         {
-            WebSim.DTO.CourseID dtoCourse = new WebSim.DTO.CourseID();
-            dtoCourse.courseid = Request.QueryString["Course"];
-            IList<WebSim.DTO.CourseDetail> courseDetails = userBuiCourse.GetCourseDetail(dtoCourse);
-            GridViewCourseDetail.DataSource = courseDetails;
-            GridViewCourseDetail.DataBind();
+            try
+            {
+                WebSim.DTO.CourseID dtoCourse = new WebSim.DTO.CourseID();
+                dtoCourse.courseid = queryString;
 
-            GridViewCourseDetail.HeaderRow.Cells[1].Text = "Course Name";
-            GridViewCourseDetail.HeaderRow.Cells[2].Text = "Course Description";
-            GridViewCourseDetail.HeaderRow.Cells[0].Visible = false;
+                IList<WebSim.DTO.CourseDetail> courseDetails = userBuiCourse.GetCourseDetail(dtoCourse);
+
+                GridViewCourseDetail.DataSource = courseDetails;
+                GridViewCourseDetail.DataBind();
+
+                GridViewCourseDetail.HeaderRow.Cells[1].Text = "Course Name";
+                GridViewCourseDetail.HeaderRow.Cells[2].Text = "Course Description";
+                GridViewCourseDetail.HeaderRow.Cells[0].Visible = false;
+            }
+            catch (NullReferenceException)
+            {
+                lblMessageGridView.Text = "Invalid course.";
+            }
         }
 
         /// <summary>
@@ -66,38 +71,39 @@ namespace WebSimManagement
         /// <param name="e">The event argument for the button click event</param>
         protected void AddStudentToList_click(object sender, EventArgs e)
         {
-
-            try
+            if (IsPostBack)
             {
-                // When no student is selected
-                if (StudentList.SelectedIndex == -1)
+                try
                 {
-                    lblMessage.Text = "Select correct student.";
-                }
-                else
-                {
-                    // Adding the selected student to another list
-                    foreach (ListItem list in StudentList.Items)
+                    // When no student is selected from the list
+                    if (StudentList.SelectedIndex == -1)
                     {
-                        if (list.Selected)
+                        lblMessage.Text = "Select correct list.";
+                    }
+                    else
+                    {
+                        // Adding the selected student to another list
+                        foreach (ListItem list in StudentList.Items)
                         {
-                            SelectedStudentList.Items.Add(list);
+                            if (list.Selected)
+                            {
+                                SelectedStudentList.Items.Add(list);
+                            }
+                        }
+
+                        // Removing the selected student from the Student List
+                        for (int count = 0; count <= StudentList.Items.Count; count++)
+                        {
+                            if (StudentList.SelectedItem.Selected)
+                                StudentList.Items.Remove(StudentList.SelectedItem);
                         }
                     }
-
-                    // Removing the selected student from the Student List
-                    for (int count = 0; count <= StudentList.Items.Count; count++)
-                    {
-                        if (StudentList.SelectedItem.Selected)
-                            StudentList.Items.Remove(StudentList.SelectedItem);
-                    }
+                }
+                catch (NullReferenceException)
+                {
+                    lblMessage.Text = "Select a name.";
                 }
             }
-            catch (NullReferenceException)
-            {
-                lblMessage.Text = "Select a name.";
-            }
-
         }
 
         /// <summary>
@@ -107,38 +113,39 @@ namespace WebSimManagement
         /// <param name="e">The event argument for the button click event</param>
         protected void RemoveSelectedStudent_click(object sender, EventArgs e)
         {
-
-            try
+            if (IsPostBack)
             {
-                // When no student is selected
-                if (SelectedStudentList.SelectedIndex == -1)
+                try
                 {
-                    lblMessage.Text = "Select correct student.";
-                }
-                else
-                {
-                    // Adds the selected student to the Student List
-                    foreach (ListItem list in SelectedStudentList.Items)
+                    // When no student is selected
+                    if (SelectedStudentList.SelectedIndex == -1)
                     {
-                        if (list.Selected)
+                        lblMessage.Text = "Select correct list.";
+                    }
+                    else
+                    {
+                        // Adds the selected student to the Student List
+                        foreach (ListItem list in SelectedStudentList.Items)
                         {
-                            StudentList.Items.Add(list);
+                            if (list.Selected)
+                            {
+                                StudentList.Items.Add(list);
+                            }
+                        }
+
+                        // Removes the selected student from the Add Student List
+                        for (int count = 0; count <= SelectedStudentList.Items.Count; count++)
+                        {
+                            if (SelectedStudentList.SelectedItem.Selected)
+                                SelectedStudentList.Items.Remove(SelectedStudentList.SelectedItem);
                         }
                     }
-
-                    // Removes the selected student from the Add Student List
-                    for (int count = 0; count <= SelectedStudentList.Items.Count; count++)
-                    {
-                        if(SelectedStudentList.SelectedItem.Selected)
-                        SelectedStudentList.Items.Remove(SelectedStudentList.SelectedItem);
-                    }
+                }
+                catch (NullReferenceException)
+                {
+                    lblMessage.Text = "";
                 }
             }
-            catch (NullReferenceException)
-            {
-                lblMessage.Text = "Select a student.";
-            }
-
         }
 
         /// <summary>
@@ -148,13 +155,32 @@ namespace WebSimManagement
         /// <param name="e">The event argument for the button click event</param>
         protected void AddStudentListToDB(object sender, EventArgs e)
         {
-            WebSim.DTO.UserToCourse userToCourse = new WebSim.DTO.UserToCourse();
+            if (IsPostBack)
+            {
+                // If the user travels through the url to this page
+                if (queryString == null)
+                {
+                    lblMessage.Text = "Invalid course.";
+                }
+                else
+                {
+                    // If no student is selected.
+                    if (SelectedStudentList.SelectedValue == "")
+                    {
+                        lblMessage.Text = "Select any student";
+                    }
+                    else
+                    {
+                        WebSim.DTO.UserInCourse userNamecourseId = new WebSim.DTO.UserInCourse();
 
-            userToCourse.userId = SelectedStudentList.Items.ToString();
-            
-           // userToCourse.courseId = 
+                        userNamecourseId.userName = SelectedStudentList.SelectedValue.ToString();
+                        userNamecourseId.courseid = queryString;
 
-            userBuiCourse.AddUserToCourse(userToCourse);
+                        userBuiCourse.AddUserInCourse(userNamecourseId);
+                    }
+
+                }
+            }
         }
 
         protected void GridViewCourseDetail_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -163,6 +189,18 @@ namespace WebSimManagement
             {
                 e.Row.Cells[0].Visible = false;
             }
+        }
+
+        /// <summary>
+        /// Removing the authentication of the user
+        /// </summary>
+        /// <param name="sender">The button is the sender object</param>
+        /// <param name="e">The event argument for the button click event</param>
+        protected void LogOutCourseDetail_Click(object sender, EventArgs e)
+        {
+            FormsAuthentication.SignOut();
+            //Response.Cookies["Teacher"].Expires.AddDays(-1);
+            Response.Redirect("UserLogin.aspx");
         }
     }
 }

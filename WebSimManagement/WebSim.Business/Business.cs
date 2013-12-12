@@ -9,7 +9,7 @@ namespace WebSim.Business
     public class Business
     {
         /// <summary>
-        /// Adds new course
+        /// Adds new course to the database
         /// </summary>
         /// <param name="courseDetail">course name and course description</param>
         public void AddNewCourse(DTO.NewCourse courseDetail)
@@ -19,28 +19,28 @@ namespace WebSim.Business
         }
 
         /// <summary>
-        /// 
+        /// Add user to the course
         /// </summary>
-        /// <param name="userCourse"></param>
-        public void AddUserToCourse(DTO.UserToCourse userCourse)
+        /// <param name="userCourse">course name and course id</param>
+        public void AddUserToCourse(DTO.UserAndCourse userCourse)
         {
             DAL.DataAccess userToCourse = new DAL.DataAccess();
             userToCourse.AddUserToCourse(userCourse);
         }
 
         /// <summary>
-        /// 
+        /// Give the name and id of the course
         /// </summary>
-        /// <returns></returns>
+        /// <returns>course name and course id</returns>
         public IList<WebSim.DTO.CourseNameAndId> GetCourseName()
         {
             return new WebSim.DAL.DataAccess().GetAllCoursesName();
         }
 
         /// <summary>
-        /// 
+        /// Remove course from the database
         /// </summary>
-        /// <param name="delCourse"></param>
+        /// <param name="delCourse">contains the course id</param>
         public void RemoveCourse(DTO.CourseID delCourse)
         {
             WebSim.DAL.DataAccess deleteCourse = new DAL.DataAccess();
@@ -48,28 +48,33 @@ namespace WebSim.Business
         }
 
         /// <summary>
-        /// 
+        /// Get details of the course
         /// </summary>
-        /// <param name="dtoCourse"></param>
-        /// <returns></returns>
+        /// <param name="dtoCourse">course id</param>
+        /// <returns>course name ,course description</returns>
         public IList<WebSim.DTO.CourseDetail> GetCourseDetail(DTO.CourseID dtoCourse)
         {
             return new WebSim.DAL.DataAccess().GetCoursesDetail(dtoCourse);
         }
 
         /// <summary>
-        /// 
+        /// Get the list of all the student
         /// </summary>
-        /// <param name="studentid"></param>
-        /// <returns></returns>
-        public IList<WebSim.DTO.StudentDetail> GetStudentList(WebSim.DTO.StudentIdentification studentid)
+        /// <param name="courseid">user id</param>
+        /// <returns>student name and student is</returns>
+        public IList<WebSim.DTO.StudentDetail> GetStudentList(WebSim.DTO.CourseID courseid)
         {
-            return new WebSim.DAL.DataAccess().GetStudentList(studentid);
+            return new WebSim.DAL.DataAccess().GetStudentList(courseid);
         }
 
-        public IList<WebSim.DTO.StudentIdentification> GetUserByCourseId(WebSim.DTO.CourseID courseid)
+        /// <summary>
+        /// Add users in the course list
+        /// </summary>
+        /// <param name="userNamecourseId">username and courseid</param>
+        public void AddUserInCourse(DTO.UserInCourse userNamecourseId)
         {
-            return new WebSim.DAL.DataAccess().GetUserByCourse(courseid);
+            DAL.DataAccess addUserToCourse = new DAL.DataAccess();
+            addUserToCourse.AddUserInCourse(userNamecourseId);
         }
     }
 }

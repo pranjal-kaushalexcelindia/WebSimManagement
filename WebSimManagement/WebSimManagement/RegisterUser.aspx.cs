@@ -36,6 +36,7 @@ namespace WebSimManagement
             {
                 txtUsername.Text = string.Empty;
                 txtEmail.Text = string.Empty;
+                Response.Redirect("UserLogin.aspx");
             }
         }
 

@@ -46,29 +46,49 @@
             <br />
             <asp:Button ID="AddNewCourse_Click" runat="server" PostBackUrl="/NewCourse.aspx" Text="Add New Course" />
 
-        </div>
+        </div><br />
 
         <div>
             Role Name : <asp:TextBox runat="server" ID="txtRoleName"></asp:TextBox>
             <asp:Button runat="server" Text="Add Role" OnClick="AddRole_click" />
+            <br />
+        </div><br />
+        <div>
+            Add User to Course :
+            <div style="display:inline;margin-left:20px;">
+        <asp:DropDownList ID="DropDownListUser" runat="server">
+            <asp:ListItem Text="--Select User--" Value=""></asp:ListItem>
+        </asp:DropDownList>
+                </div>
+            <div style="display:inline;margin-left:20px;">
+            <asp:DropDownList ID="DropDownListCourse" runat="server" DataValueField="CourseName">
+                <asp:ListItem Text="--Select Course--" Value=""></asp:ListItem>
+            </asp:DropDownList>
+                </div>
         </div>
+        <div style="margin-top:20px;">
+        <asp:Button ID="Button1" runat="server" OnClick="AddUserAndCourse_Click" Text="Add User to Course" />
+            </div>
+        <br />
         <br />
         <div>
-        <div style="display:inline-block;">
-            Add Users To Role
-            <asp:DropDownList ID="DropDownUserList" runat="server">
-                <asp:ListItem Text="--Select Users--" Value=""></asp:ListItem>
-            </asp:DropDownList>
+            <div style="display: inline-block;">
+                Add Users To Role :
+            <div style="display: inline; margin-left: 20px;">
+                <asp:DropDownList ID="DropDownUserList" runat="server">
+                    <asp:ListItem Text="--Select Users--" Value=""></asp:ListItem>
+                </asp:DropDownList>
+            </div>
+                <div style="display: inline; margin-left: 20px;">
+                    <asp:DropDownList ID="DropDownRoleList" runat="server">
+                        <asp:ListItem Text="--Select Role--" Value=""></asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+                <div style="margin-top:10px;">
+                    <asp:Button runat="server" Text="Add" OnClick="AddUserToRole_Click" />
+                </div>
+            </div>
         </div>
-        <div style="display:inline;">
-        <asp:DropDownList ID="DropDownRoleList" runat="server">
-            <asp:ListItem Text="--Select Roles--" Value=""></asp:ListItem>
-        </asp:DropDownList>
-            </div>
-            <div>
-                <asp:Button runat="server" Text="Add" OnClick="AddUserToRole_Click" />
-            </div>
-            </div>
     </form>
 </body>
 </html>
