@@ -27,16 +27,18 @@
             <asp:Label runat="server" ID="lblMessageGridView"></asp:Label>
         </div>
         <div>
-            <hr />
+            
             <asp:Label runat="server" ID="lblMessage"></asp:Label>
             <br />
             <br />
             <div>
 
                 <div style="width: 100px; display: inline;">
-                    <asp:Label runat="server">Student List</asp:Label>
+                    <asp:Label runat="server" Text="Student List" ID="lbl_StudentList">Student List</asp:Label>
                 </div>
-                <div style="display: inline; margin-left: 230px;">Add Student List</div>
+                <div style="display: inline; margin-left: 230px;">
+                    <asp:Label runat="server" Text="Add Student List" ID="lbl_AddStudentList"></asp:Label>
+                </div>
             </div>
             <br />
             <div style="display: inline-block;">
@@ -47,12 +49,12 @@
                 <table>
                     <tr>
                         <td>
-                            <asp:Button ID="btnAddStudent" OnClick="AddStudentToList_click" runat="server" Text="ADD >>" />
+                            <asp:Button ID="btn_AddStudent" OnClick="AddStudentToList_click" runat="server" Text="ADD >>" />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <asp:Button ID="btnRemoveStudent" runat="server" Text="Remove <<" OnClick="RemoveSelectedStudent_click" />
+                            <asp:Button ID="btn_RemoveStudent" runat="server" Text="Remove <<" OnClick="RemoveSelectedStudent_click" />
                         </td>
                     </tr>
                 </table>
@@ -63,7 +65,7 @@
             </div>
 
             <div style="margin: 30px 290px;">
-                <asp:Button runat="server" Text="Add Student List" OnClick="AddStudentListToDB" />
+                <asp:Button runat="server" Text="Add Student List" ID="btn_AddStudentList" OnClick="AddStudentListToDB" />
             </div>
         </div>
     </form>

@@ -1,0 +1,5 @@
+D:\Work\RampUp\ASP.Net\Assignment2\WebSimManagement\WebSimManagement.Database\bin\Debug\WebSimManagement.Database.dacpac
+D:\Work\RampUp\ASP.Net\Assignment2\WebSimManagement\WebSimManagement.Database\bin\Debug\WebSimManagement.Database.dll
+D:\Work\RampUp\ASP.Net\Assignment2\WebSimManagement\WebSimManagement.Database\bin\Debug\WebSimManagement.Database.pdb
+D:\Work\RampUp\ASP.Net\Assignment2\WebSimManagement\WebSimManagement.Database\obj\Debug\WebSimManagement.Database.dll
+D:\Work\RampUp\ASP.Net\Assignment2\WebSimManagement\WebSimManagement.Database\obj\Debug\WebSimManagement.Database.pdb

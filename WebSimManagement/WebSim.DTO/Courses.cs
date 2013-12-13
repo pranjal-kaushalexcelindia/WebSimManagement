@@ -9,5 +9,8 @@ namespace WebSim.DTO
     public class Courses
     {
         public string courseName { get; set; }
+        public int CourseId { get; set; }
+        public string CourseDetails { get; set; }
+
     }
 }

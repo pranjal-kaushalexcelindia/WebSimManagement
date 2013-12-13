@@ -10,24 +10,45 @@ namespace WebSimManagement
 {
     public partial class CourseDetails : System.Web.UI.Page
     {
-        WebSim.Business.Business userBuiCourse = new WebSim.Business.Business();
         private string queryString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             queryString = Request.QueryString["Course"];
-            if (!Page.IsPostBack)
+            if (User.IsInRole("STUDENT"))
             {
-                GridViewCourseList();
-                StudentListView();
+                UserIsStudent();
             }
+            else
+            {
+                if (!Page.IsPostBack)
+                {
+                    ListView_Student();
+                }
+            }
+            GridView_CourseList();   
+        }
+
+        private void UserIsStudent()
+        {
+            lblMessageGridView.Visible = false;
+            lblMessage.Visible = false;
+            lbl_StudentList.Visible = false;
+            lbl_AddStudentList.Visible = false;
+            StudentList.Visible = false;
+            btn_AddStudent.Visible = false;
+            btn_RemoveStudent.Visible = false;
+            SelectedStudentList.Visible = false;
+            btn_AddStudentList.Visible = false;
         }
 
         /// <summary>
         /// Sets the student list for the subject
         /// </summary>
-        private void StudentListView()
+        private void ListView_Student()
         {
+            WebSim.Business.UserBusiness userBuiCourse = new WebSim.Business.UserBusiness();
+
             WebSim.DTO.CourseID courseid = new WebSim.DTO.CourseID();
             courseid.courseid = queryString;
             IList<WebSim.DTO.StudentDetail> studDetail = userBuiCourse.GetStudentList(courseid);
@@ -35,25 +56,32 @@ namespace WebSimManagement
             // adding student name to the list
             foreach (var item in studDetail)
             {
-                StudentList.Items.Insert(0, item.name.ToString());
+
+
+                StudentList.Items.Add(new ListItem(item.userName,item.studentId.ToString()));
+
+
             }
         }
 
         /// <summary>
         /// Get the GridView List of the courses details using the query string
         /// </summary>
-        private void GridViewCourseList()
+        private void GridView_CourseList()
         {
             try
             {
                 WebSim.DTO.CourseID dtoCourse = new WebSim.DTO.CourseID();
+                WebSim.Business.CourseBusiness courseBuiCourse = new WebSim.Business.CourseBusiness();
+
                 dtoCourse.courseid = queryString;
 
-                IList<WebSim.DTO.CourseDetail> courseDetails = userBuiCourse.GetCourseDetail(dtoCourse);
+                IList<WebSim.DTO.CourseDetail> courseDetails = courseBuiCourse.GetCourseDetail(dtoCourse);
 
                 GridViewCourseDetail.DataSource = courseDetails;
                 GridViewCourseDetail.DataBind();
-
+                //TODO: move the UI strings to resource file.
+                //Why??
                 GridViewCourseDetail.HeaderRow.Cells[1].Text = "Course Name";
                 GridViewCourseDetail.HeaderRow.Cells[2].Text = "Course Description";
                 GridViewCourseDetail.HeaderRow.Cells[0].Visible = false;
@@ -71,10 +99,11 @@ namespace WebSimManagement
         /// <param name="e">The event argument for the button click event</param>
         protected void AddStudentToList_click(object sender, EventArgs e)
         {
-            if (IsPostBack)
-            {
-                try
+              try
                 {
+
+                  //TODO: Study about controls viewstate
+
                     // When no student is selected from the list
                     if (StudentList.SelectedIndex == -1)
                     {
@@ -103,7 +132,7 @@ namespace WebSimManagement
                 {
                     lblMessage.Text = "Select a name.";
                 }
-            }
+            
         }
 
         /// <summary>
@@ -132,6 +161,8 @@ namespace WebSimManagement
                                 StudentList.Items.Add(list);
                             }
                         }
+                        
+                        //TODO: how to run fxcop along with your vs project.
 
                         // Removes the selected student from the Add Student List
                         for (int count = 0; count <= SelectedStudentList.Items.Count; count++)
@@ -141,8 +172,11 @@ namespace WebSimManagement
                         }
                     }
                 }
-                catch (NullReferenceException)
+                catch (NullReferenceException ex)
                 {
+
+                    //Add logging of exception
+
                     lblMessage.Text = "";
                 }
             }
@@ -172,11 +206,12 @@ namespace WebSimManagement
                     else
                     {
                         WebSim.DTO.UserInCourse userNamecourseId = new WebSim.DTO.UserInCourse();
+                        WebSim.Business.UserBusiness courseBuiCourse = new WebSim.Business.UserBusiness();
 
                         userNamecourseId.userName = SelectedStudentList.SelectedValue.ToString();
                         userNamecourseId.courseid = queryString;
 
-                        userBuiCourse.AddUserInCourse(userNamecourseId);
+                        courseBuiCourse.AddUserInCourse(userNamecourseId);
                     }
 
                 }

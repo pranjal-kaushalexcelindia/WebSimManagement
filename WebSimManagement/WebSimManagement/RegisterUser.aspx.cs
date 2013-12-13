@@ -34,8 +34,6 @@ namespace WebSimManagement
 
             if (Page.IsPostBack)
             {
-                txtUsername.Text = string.Empty;
-                txtEmail.Text = string.Empty;
                 Response.Redirect("UserLogin.aspx");
             }
         }

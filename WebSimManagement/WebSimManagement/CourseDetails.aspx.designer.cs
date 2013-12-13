@@ -58,6 +58,24 @@ namespace WebSimManagement {
         protected global::System.Web.UI.WebControls.Label lblMessage;
         
         /// <summary>
+        /// lbl_StudentList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_StudentList;
+        
+        /// <summary>
+        /// lbl_AddStudentList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_AddStudentList;
+        
+        /// <summary>
         /// StudentList control.
         /// </summary>
         /// <remarks>
@@ -67,22 +85,22 @@ namespace WebSimManagement {
         protected global::System.Web.UI.WebControls.ListBox StudentList;
         
         /// <summary>
-        /// btnAddStudent control.
+        /// btn_AddStudent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddStudent;
+        protected global::System.Web.UI.WebControls.Button btn_AddStudent;
         
         /// <summary>
-        /// btnRemoveStudent control.
+        /// btn_RemoveStudent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnRemoveStudent;
+        protected global::System.Web.UI.WebControls.Button btn_RemoveStudent;
         
         /// <summary>
         /// SelectedStudentList control.
@@ -92,5 +110,14 @@ namespace WebSimManagement {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox SelectedStudentList;
+        
+        /// <summary>
+        /// btn_AddStudentList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_AddStudentList;
     }
 }

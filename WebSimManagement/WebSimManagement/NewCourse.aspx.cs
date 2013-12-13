@@ -11,7 +11,6 @@ namespace WebSimManagement
 {
     public partial class NewCourse : System.Web.UI.Page
     {
-        Business course = new Business();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -26,6 +25,7 @@ namespace WebSimManagement
         protected void AddNewCourse_Click(object sender, EventArgs e)
         {
             WebSim.DTO.NewCourse courseData = new WebSim.DTO.NewCourse();
+            UserBusiness course = new UserBusiness();
 
             courseData.coursename = txtCourseName.Text;
             courseData.coursedescription = txtCourseDetail.Text;

@@ -8,7 +8,7 @@ namespace WebSim.DTO
 {
     public class StudentDetail
     {
-        public string studentId { get; set; }
-        public string name { get; set; }
+        public Guid studentId { get; set; }
+        public string userName { get; set; }
     }
 }

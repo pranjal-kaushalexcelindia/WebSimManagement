@@ -8,23 +8,44 @@ using System.Web.UI.WebControls;
 
 namespace WebSimManagement
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class Dashboard : System.Web.UI.Page
     {
-        WebSim.Business.Business business = new WebSim.Business.Business();
+
+        #region Private Members
+        
+        /// <summary>
+        /// 
+        /// </summary>
         private string courseid;
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        private int usersInRole = 0;
 
-        protected void Page_Load(object sender, EventArgs e)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void InitializeControls()
         {
-            if (!Page.IsPostBack)
-            {
-                // Get the course list to the gridview as well as to the dropdownlist
-                CourseList();
-
-                // Gets the username list for the role and course dropdown list
-                UserList();
-
-                RolesList();
-            }
+            lbl_RoleName.Visible = false;
+            txt_RoleName.Visible = false;
+            btn_RoleName.Visible = false;
+            btn_AddNewCourse.Visible = false;
+            lbl_AddUserToCourse.Visible = false;
+            DropDownListUser.Visible = false;
+            DropDownListCourse.Visible = false;
+            btn_AddUserToCourse.Visible = false;
+            lblMessage.Visible = false;
+            lbl_AddUsersToRole.Visible = false;
+            DropDownUserList.Visible = false;
+            DropDownRoleList.Visible = false;
+            btn_AddUserToTole.Visible = false;
+            GridViewDashboard.Columns.RemoveAt(1);
         }
 
         /// <summary>
@@ -32,8 +53,10 @@ namespace WebSimManagement
         /// </summary>
         private void CourseList()
         {
-            IList<WebSim.DTO.CourseNameAndId> courseDTO = business.GetCourseName();
-            
+            WebSim.Business.CourseBusiness courseNameList = new WebSim.Business.CourseBusiness();
+
+            IList<WebSim.DTO.CourseNameAndId> courseDTO = courseNameList.GetCourseName();
+
             // Add the coursename to the dropdownlist
             DropDownListCourse.DataSource = courseDTO;
             DropDownListCourse.DataBind();
@@ -43,8 +66,17 @@ namespace WebSimManagement
             GridViewDashboard.DataBind();
 
             // Renaming the header and hiding the course id column
-            GridViewDashboard.HeaderRow.Cells[3].Text = "Course Name";
-            GridViewDashboard.HeaderRow.Cells[2].Visible = false;
+
+            if (User.IsInRole("STUDENT"))
+            {
+                GridViewDashboard.HeaderRow.Cells[2].Text = "Course Name";
+                GridViewDashboard.HeaderRow.Cells[1].Visible = false;
+            }
+            else
+            {
+                GridViewDashboard.HeaderRow.Cells[3].Text = "Course Name";
+                GridViewDashboard.HeaderRow.Cells[2].Visible = false;
+            }
         }
 
         /// <summary>
@@ -70,6 +102,29 @@ namespace WebSimManagement
             DropDownListUser.DataBind();
         }
 
+        #endregion
+        
+
+        #region Protected Event methods
+        
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (User.IsInRole("STUDENT"))
+            {
+                InitializeControls();
+            }
+            if (!Page.IsPostBack)
+            {
+                // Get the course list to the gridview as well as to the dropdownlist
+                CourseList();
+
+                // Gets the username list for the role and course dropdown list
+                UserList();
+
+                RolesList();
+            }
+        }
+
         /// <summary>
         /// add user and the course to a table in the database
         /// </summary>
@@ -78,11 +133,12 @@ namespace WebSimManagement
         protected void AddUserAndCourse_Click(object sender, EventArgs e)
         {
             WebSim.DTO.UserAndCourse userInCourse = new WebSim.DTO.UserAndCourse();
+            WebSim.Business.UserBusiness addUserAndCourse = new WebSim.Business.UserBusiness();
             
             userInCourse.userName = DropDownListUser.SelectedValue.ToString();
             userInCourse.courseName = DropDownListCourse.SelectedValue.ToString();
 
-            business.AddUserToCourse(userInCourse);
+            addUserAndCourse.AddUserToCourse(userInCourse);
         }
 
         /// <summary>
@@ -93,7 +149,9 @@ namespace WebSimManagement
         protected void DeleteCourse_Click(object sender, EventArgs e)
         {
             WebSim.DTO.CourseID courseid = new WebSim.DTO.CourseID();
-            string coursename = ((LinkButton)sender).CommandArgument.ToString();
+            string courseID = ((LinkButton)sender).CommandArgument.ToString();
+
+            courseid.courseid = courseID;
 
             business.RemoveCourse(courseid);
         }
@@ -129,14 +187,17 @@ namespace WebSimManagement
         protected void AddRole_click(object sender, EventArgs e)
         {
             try
-            {
-                Roles.CreateRole(txtRoleName.Text.ToUpper().Trim());
-                txtRoleName.Text = string.Empty;
-            }
-            catch (ArgumentException)
-            {
-                Response.Redirect("CourseDetails.aspx");
-            }
+                {
+                    if (Roles.RoleExists(txt_RoleName.Text))
+                        lblMessage.Text = "The role name is already present.";
+                    else
+                        Roles.CreateRole(txt_RoleName.Text.ToUpper().Trim());
+                    txt_RoleName.Text = string.Empty;
+                }
+                catch (ArgumentException)
+                {
+                    Response.Redirect("CourseDetails.aspx");
+                }
         }
 
         /// <summary>
@@ -147,9 +208,23 @@ namespace WebSimManagement
         protected void AddUserToRole_Click(object sender, EventArgs e)
         {
             string userName = DropDownUserList.SelectedValue.ToString();
-            string rolenName = DropDownRoleList.SelectedValue.ToString();
-
-            Roles.AddUserToRole(userName, rolenName);
+            string roleName = DropDownRoleList.SelectedValue.ToString();
+            string[] roles = Roles.GetRolesForUser(userName);
+            try
+            {
+                foreach (string role in roles)
+                {
+                    usersInRole += 1;
+                }
+                if (usersInRole == 0)
+                    Roles.AddUserToRole(userName, roleName);
+                else
+                    lblMessage.Text = "Any user cannot have 2 roles.";
+            }
+            catch (Exception)
+            {
+                lblMessage.Text = "The user is already in the role.";
+            }
         }
 
         /// <summary>
@@ -164,5 +239,7 @@ namespace WebSimManagement
                 e.Row.Cells[2].Visible = false;
             }
         }
+        #endregion
+
     }
 }

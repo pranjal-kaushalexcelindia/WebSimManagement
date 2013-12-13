@@ -31,22 +31,49 @@ namespace WebSimManagement {
         protected global::System.Web.UI.WebControls.GridView GridViewDashboard;
         
         /// <summary>
-        /// AddNewCourse_Click control.
+        /// btn_AddNewCourse control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button AddNewCourse_Click;
+        protected global::System.Web.UI.WebControls.Button btn_AddNewCourse;
         
         /// <summary>
-        /// txtRoleName control.
+        /// lbl_RoleName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRoleName;
+        protected global::System.Web.UI.WebControls.Label lbl_RoleName;
+        
+        /// <summary>
+        /// txt_RoleName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txt_RoleName;
+        
+        /// <summary>
+        /// btn_RoleName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_RoleName;
+        
+        /// <summary>
+        /// lbl_AddUserToCourse control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_AddUserToCourse;
         
         /// <summary>
         /// DropDownListUser control.
@@ -67,13 +94,31 @@ namespace WebSimManagement {
         protected global::System.Web.UI.WebControls.DropDownList DropDownListCourse;
         
         /// <summary>
-        /// Button1 control.
+        /// btn_AddUserToCourse control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Button btn_AddUserToCourse;
+        
+        /// <summary>
+        /// lblMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMessage;
+        
+        /// <summary>
+        /// lbl_AddUsersToRole control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl_AddUsersToRole;
         
         /// <summary>
         /// DropDownUserList control.
@@ -92,5 +137,14 @@ namespace WebSimManagement {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DropDownRoleList;
+        
+        /// <summary>
+        /// btn_AddUserToTole control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_AddUserToTole;
     }
 }
